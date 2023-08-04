@@ -5,20 +5,15 @@
 </script>
 
 <style lang="scss">
-  article {
-    display: flex;
-    flex-direction: column;
-    height: 100vh; /* Define a altura para que o conteúdo ocupe toda a tela */
-  }
-
   section {
-    flex: 1; /* Ocupa o espaço disponível entre o header e o footer */
+    flex: 1; /* Ocupa todo o espaço disponível */
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly; /* Distribui os cards uniformemente ao longo da seção */
-    align-items: center; /* Centraliza os cards horizontalmente */
+    justify-content: space-evenly; /* Distribui os cards com espaçamento igual */
+    align-items: center; /* Centraliza largura */
     gap: 20px; /* Espaçamento entre os cards */
     padding-bottom: 10vh;
+    height: calc(100vh - 12vh * 2.8); /* centraliza altura */
   }
 
   overview-water {
@@ -44,7 +39,7 @@
   }
 </style>
 
-<article>
+
   <Header
   showHeader={true}
   userName="Shay Doe"
@@ -60,6 +55,6 @@
       <p>2.5L</p>
     </overview-break>
   </section>
-</article>
+
 
 <Footer></Footer>
