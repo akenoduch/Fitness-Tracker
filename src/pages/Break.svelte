@@ -1,12 +1,10 @@
 <!-- Break.svelte -->
 <script>
   import Footer from '../components/Footer/Footer.svelte';
+  import Header from '../components/Header/Header.svelte';
 </script>
 
 <style lang="scss">
-  * {
-    background-color: rgb(255, 0, 0);
-  }
   /* Estilo para centralizar o texto */
   .centered-content {
     display: flex;
@@ -19,6 +17,10 @@
 
   /* Estilos adicionais para a página, se necessário */
 </style>
+
+<Header
+showHeader={true}
+></Header>
 
 <div class="centered-content">
   <!-- Conteúdo centralizado -->
