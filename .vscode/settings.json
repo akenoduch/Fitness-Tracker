@@ -1,0 +1,43 @@
+{
+  // Formatting
+  "editor.tabSize": 2,
+
+  // Linter
+  "eslint.enable": true,
+  "eslint.validate": ["javascript", "typescript", "svelte"],
+  "eslint.lintTask.enable": true,
+
+  // Svelte
+  "svelte.enable-ts-plugin": true,
+
+  // Spelling
+  "cSpell.language": "pt,en",
+  "cSpell.words": ["autodocs", "storysource", "ultrawide", "viewports"],
+
+  // Utilities
+  "auto-rename-tag.activationOnLanguage": ["markdown", "html", "svelte", "mdx"],
+  "auto-close-tag.activationOnLanguage": ["markdown", "html", "svelte", "mdx"],
+
+  "[svelte][mdx][markdown][html]": {
+    "editor.linkedEditing": true
+  },
+  "todohighlight.keywords": [
+    {
+      "text": "NOTE:",
+      "color": "#5f5f5f",
+      "backgroundColor": "#ffd900",
+      "overviewRulerColor": "grey"
+    }
+  ],
+
+  "[javascript][typescript][svelte][html][css][scss][markdown][mdx][json][jsonc]": {
+    // Formatter
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+
+    // Linter
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    }
+  }
+}
