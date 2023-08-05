@@ -77,7 +77,7 @@
       {:else if pageType === '#/break'} <!-- Break -->
         <div class="user-name">Take a Break</div>
       {:else} <!-- Outras páginas -->
-        <div class="user-name">Bem-vindo(a), {userName}</div>
+        <div class="user-name">Hello, {userName}</div>
       {/if}
       <div class="date">{currentDate}</div>
     </div>
