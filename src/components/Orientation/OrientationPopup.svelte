@@ -26,7 +26,6 @@
 {/if}
 
 <style>
-  /* Styling for the popup overlay */
   .popup-overlay {
     position: fixed;
     top: 0;
@@ -40,9 +39,7 @@
     z-index: 9999;
   }
 
-  /* Styling for the popup */
   .popup {
-    /* Customize the popup appearance */
     background-color: white;
     padding: 20px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);

@@ -10,7 +10,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-evenly; /* Distribui os cards com espaçamento igual */
-    align-items: center; /* Centraliza largura */
+    align-items: center; /* Centraliza X */
     gap: 20px; /* Espaçamento entre os cards */
     padding-bottom: 10vh;
     height: calc(100vh - 12vh * 2.8); /* centraliza altura */
@@ -43,7 +43,7 @@
   <Header
   showHeader={true}
   userName="Shay Doe"
-  ></Header> <!-- Defina showHeader como true para exibir o Header -->
+  ></Header>
   <section>
     <!-- Conteúdo da overview aqui -->
     <overview-water>

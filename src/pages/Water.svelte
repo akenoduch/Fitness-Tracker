@@ -1,31 +1,54 @@
 <!-- Water.svelte -->
 <script>
+  import { onMount } from 'svelte';
+
   import Footer from '../components/Footer/Footer.svelte';
   import Header from '../components/Header/Header.svelte';
+  import WaterDrop from '$components/WaterDrop/WaterDrop.svelte';
+  import AddButton from '$components/AddButton/AddButton.svelte';
+
+  let offset = 0;
+  let showInput = false;
+  let showConfirmation = false;
+
+  function toggleInput() {
+    showInput = !showInput;
+    if (showInput) {
+      showConfirmation = true;
+    } else {
+      showConfirmation = false;
+    }
+  }
+
+  onMount(() => {
+    const addButton = document.querySelector('.add-button');
+    addButton.addEventListener('click', toggleInput);
+  });
 </script>
 
 <style lang="scss">
-  *{
-    background-color: grey;
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
   }
-  /* Estilo para centralizar o texto */
   .centered-content {
     display: flex;
+    flex: 1;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     height: calc(100vh - 12vh * 2.8); /* centralizar altura */
-    font-size: 24px;
-    font-weight: bold;
   }
 </style>
 
-<Header
-showHeader={true}>
-</Header>
+<Header showHeader={true} />
 
 <div class="centered-content">
-  <!-- Conteúdo centralizado -->
-  Oi
+  <WaterDrop {offset} />
+  <AddButton bind:offset={offset} {showInput} {showConfirmation} />
 </div>
 
-<Footer></Footer>
+<Footer />
