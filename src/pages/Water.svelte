@@ -11,6 +11,17 @@
   let showInput = false;
   let showConfirmation = false;
 
+  onMount(() => {
+    // Carregar o valor waterIntake do localStorage e convertê-lo para um número
+    const waterIntake = Number(localStorage.getItem('waterIntake') || 0);
+
+    // Você pode ajustar o valor de waterIntake conforme necessário para ajustar ao intervalo de 0 a 100
+    offset = waterIntake;
+
+    const addButton = document.querySelector('.add-button');
+    addButton.addEventListener('click', toggleInput);
+  });
+
   function toggleInput() {
     showInput = !showInput;
     if (showInput) {
@@ -19,11 +30,6 @@
       showConfirmation = false;
     }
   }
-
-  onMount(() => {
-    const addButton = document.querySelector('.add-button');
-    addButton.addEventListener('click', toggleInput);
-  });
 </script>
 
 <style lang="scss">

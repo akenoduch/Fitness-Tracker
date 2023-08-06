@@ -20,6 +20,10 @@
 </svg>
 
 <style>
+.water-drop{
+  width: 300px;
+  height: 400px;
+}
 .water-drop path {
   stroke: #7700ca;
   stroke-width: 0.5;

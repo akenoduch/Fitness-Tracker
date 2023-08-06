@@ -1,8 +1,8 @@
 <!-- Header.svelte -->
 <script lang="ts">
+  import ConfigPopup from "./ConfigPopup.svelte"; // Importa o componente da popup de configuração
   export let showHeader = false;
   export let userName = "";
-  // export let pageType = "";
 
   // Função para obter a data atual formatada com o mês por extenso
   function getCurrentDate() {
@@ -10,8 +10,8 @@
     return new Date().toLocaleDateString('pt-BR', options);
   }
 
-    // Função para obter a parte relevante da URL após o hash
-    function getCurrentPageType() {
+  // Função para obter a parte relevante da URL após o hash
+  function getCurrentPageType() {
     return window.location.hash;
   }
 
@@ -21,6 +21,12 @@
   // Inicializar a prop pageType com a parte relevante da URL após o hash
   export let pageType = getCurrentPageType();
 
+  let showConfig = false;
+  let categories = Object.entries(localStorage).map(([key, value]) => ({ key, value }));
+
+  const toggleConfigPopup = () => {
+    showConfig = !showConfig;
+  };
 </script>
 
 <style lang="scss">
@@ -44,43 +50,53 @@
     align-items: flex-start;
     width: 100%;
     height: 100%;
-    padding-left: 20px; /* Espaçamento à esquerda */
-    color: #fff; /* Cor do texto */
+    padding-left: 20px;
+    color: #fff;
     font-size: 18px;
   }
   .date {
-    font-size: 1em; /* 80% do font-size do user-info (18px * 0.8) */
+    font-size: 1em;
     color: #7700ca;
     font-weight: bold;
   }
-
   .user-name {
     font-weight: bold;
-    font-size: 1.8em; /* 150% do font-size do user-info (18px * 1.5) */
-    margin-bottom: 4px; /* Espaçamento entre o nome do usuário e a data */
+    font-size: 1.8em;
+    margin-bottom: 4px;
     color: black;
   }
-
   .spacer {
-    height: 20vh; /* Defina a mesma altura do header */
+    height: 20vh;
+  }
+  .menu-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 10px;
+    background: #7700ca;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    border: none;
   }
 </style>
-
 
 {#if showHeader}
   <div class="header">
     <div class="user-info">
-      {#if pageType === '#/home'} <!-- Home -->
+      {#if pageType === '#/home'}
         <div class="user-name">Hello, {userName}</div>
-      {:else if pageType === '#/water'} <!-- Water -->
+      {:else if pageType === '#/water'}
         <div class="user-name">Daily Water</div>
-      {:else if pageType === '#/break'} <!-- Break -->
+      {:else if pageType === '#/break'}
         <div class="user-name">Take a Break</div>
-      {:else} <!-- Outras páginas -->
+      {:else}
         <div class="user-name">Hello, {userName}</div>
       {/if}
       <div class="date">{currentDate}</div>
     </div>
+    <button on:click={toggleConfigPopup} class="menu-button">Menu</button>
   </div>
   <div class="spacer"></div>
+  <ConfigPopup {categories} {showConfig} />
 {/if}

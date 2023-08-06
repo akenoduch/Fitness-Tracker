@@ -75,7 +75,7 @@
     {:else if showThankYou}
       <div>
         <h1>Obrigado</h1>
-        <p>Water: {waterIntake.toFixed(2)} ml</p> <!-- Exibindo o valor calculado -->
+        <p>Water: {waterIntake.toFixed(2)} ml</p> <!-- Valor calculado -->
         <button on:click={closePopup}>Fechar</button> <!-- Botão para fechar a popup -->
       </div>
     {:else}
