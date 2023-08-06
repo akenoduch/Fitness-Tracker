@@ -2,6 +2,7 @@
 <script lang="ts">
   export let showHeader = false;
   export let userName = "";
+  // export let pageType = "";
 
   // Função para obter a data atual formatada com o mês por extenso
   function getCurrentDate() {
@@ -9,8 +10,16 @@
     return new Date().toLocaleDateString('pt-BR', options);
   }
 
+    // Função para obter a parte relevante da URL após o hash
+    function getCurrentPageType() {
+    return window.location.hash;
+  }
+
   // Inicializar a prop currentDate com a data formatada
   export let currentDate = getCurrentDate();
+
+  // Inicializar a prop pageType com a parte relevante da URL após o hash
+  export let pageType = getCurrentPageType();
 
 </script>
 
@@ -57,13 +66,21 @@
   }
 </style>
 
+
 {#if showHeader}
   <div class="header">
     <div class="user-info">
-      <div class="user-name">{userName}</div>
+      {#if pageType === '#/home'} <!-- Home -->
+        <div class="user-name">Hello, {userName}</div>
+      {:else if pageType === '#/water'} <!-- Water -->
+        <div class="user-name">Daily Water</div>
+      {:else if pageType === '#/break'} <!-- Break -->
+        <div class="user-name">Take a Break</div>
+      {:else} <!-- Outras páginas -->
+        <div class="user-name">Hello, {userName}</div>
+      {/if}
       <div class="date">{currentDate}</div>
     </div>
   </div>
   <div class="spacer"></div>
 {/if}
-
