@@ -1,7 +1,18 @@
 <!-- Home.svelte -->
 <script lang="ts">
+  import { onMount } from "svelte";
   import Footer from "$components/Footer/Footer.svelte";
   import Header from "$components/Header/Header.svelte";
+
+  let userName = "";
+
+  onMount(() => {
+    const userResponses = JSON.parse(localStorage.getItem("userResponses"));
+    if (userResponses && userResponses.UserName) {
+      userName = userResponses.UserName;
+    }
+  });
+
 </script>
 
 <style lang="scss">
@@ -42,7 +53,7 @@
 
   <Header
   showHeader={true}
-  userName="Shay Doe"
+  {userName}
   ></Header>
   <section>
     <!-- Conteúdo da overview aqui -->

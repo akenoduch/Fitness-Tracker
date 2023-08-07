@@ -11,14 +11,22 @@
     answers[key] = value;
   };
 
+  let UserNameStorage = localStorage.getItem("UserName");
+
   const nextQuestion = () => {
-    saveAnswer(questions[currentQuestionIndex].id, answers[questions[currentQuestionIndex].id]);
+    const currentQuestionId = questions[currentQuestionIndex].id;
+    const answer = answers[currentQuestionId];
+    saveAnswer(currentQuestionId, answer);
+
     if (currentQuestionIndex < questions.length - 1) {
       currentQuestionIndex += 1;
     } else {
       calculateWaterIntake();
-      localStorage.setItem('userResponses', JSON.stringify(answers));
-      localStorage.setItem('waterIntake', waterIntake.toFixed(2)); // Salvando o resultado no localStorage
+      // Salvando cada resposta no localStorage usando o ID da pergunta
+      for (const [key, value] of Object.entries(answers)) {
+        localStorage.setItem(key, JSON.stringify(value));
+      }
+      localStorage.setItem("waterIntake", waterIntake.toFixed(2)); // Salvando o resultado no localStorage
       showThankYou = true;
     }
   };
@@ -39,19 +47,19 @@
 
     let activityFactor = 0;
     switch (activity) {
-      case 'sedentary':
+      case "sedentary":
         activityFactor = 30;
         break;
-      case 'lightlyActive':
+      case "lightlyActive":
         activityFactor = 35;
         break;
-      case 'moderatelyActive':
+      case "moderatelyActive":
         activityFactor = 40;
         break;
-      case 'veryActive':
+      case "veryActive":
         activityFactor = 45;
         break;
-      case 'extremelyActive':
+      case "extremelyActive":
         activityFactor = 50;
         break;
       default:
@@ -59,13 +67,14 @@
     }
 
     const heightFactor = height * 0.3;
-    const genderFactor = (gender === 'male') ? 5 : -161;
+    const genderFactor = gender === "male" ? 5 : -161;
 
-    waterIntake = (weight * activityFactor) + heightFactor + genderFactor;
+    waterIntake = weight * activityFactor + heightFactor + genderFactor;
   };
 </script>
 
-{#if showPopup} <!-- Controla a exibição da popup -->
+{#if showPopup && !UserNameStorage}
+  <!-- Controla a exibição da popup -->
   <div class="popup">
     {#if showWelcome}
       <div>
@@ -75,18 +84,33 @@
     {:else if showThankYou}
       <div>
         <h1>Obrigado</h1>
-        <p>Water: {waterIntake.toFixed(2)} ml</p> <!-- Exibindo o valor calculado -->
-        <button on:click={closePopup}>Fechar</button> <!-- Botão para fechar a popup -->
+        <p>Water: {waterIntake.toFixed(2)} ml</p>
+        <!-- Valor calculado -->
+        <button on:click={closePopup}>Fechar</button>
+        <!-- Botão para fechar a popup -->
       </div>
     {:else}
       <div>
-        <label for={questions[currentQuestionIndex].id}>{questions[currentQuestionIndex].label}</label>
-        {#if questions[currentQuestionIndex].type === 'text'}
-          <input type="text" id={questions[currentQuestionIndex].id} bind:value={answers[questions[currentQuestionIndex].id]} />
-        {:else if questions[currentQuestionIndex].type === 'number'}
-          <input type="number" id={questions[currentQuestionIndex].id} bind:value={answers[questions[currentQuestionIndex].id]} />
-        {:else if questions[currentQuestionIndex].type === 'select'}
-          <select id={questions[currentQuestionIndex].id} bind:value={answers[questions[currentQuestionIndex].id]}>
+        <label for={questions[currentQuestionIndex].id}
+          >{questions[currentQuestionIndex].label}</label
+        >
+        {#if questions[currentQuestionIndex].type === "text"}
+          <input
+            type="text"
+            id={questions[currentQuestionIndex].id}
+            bind:value={answers[questions[currentQuestionIndex].id]}
+          />
+        {:else if questions[currentQuestionIndex].type === "number"}
+          <input
+            type="number"
+            id={questions[currentQuestionIndex].id}
+            bind:value={answers[questions[currentQuestionIndex].id]}
+          />
+        {:else if questions[currentQuestionIndex].type === "select"}
+          <select
+            id={questions[currentQuestionIndex].id}
+            bind:value={answers[questions[currentQuestionIndex].id]}
+          >
             {#each questions[currentQuestionIndex].options as option}
               <option value={option.value}>{option.label}</option>
             {/each}

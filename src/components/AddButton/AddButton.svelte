@@ -2,17 +2,40 @@
 <script>
   export let offset;
   export let showInput = false;
-  export let showConfirmation = false;
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+  let waterAmount = 0;
 
   function toggleInput() {
     showInput = !showInput;
-    if (showInput) {
-      showConfirmation = true;
-    } else {
-      showConfirmation = false;
+    if (!showInput) {
+      dispatch("waterAdded", waterAmount);
+      waterAmount = 0;
     }
   }
 </script>
+
+<!-- lembrar de não permitir valores negativos no input -->
+<div>
+  {#if showInput}
+    <div class="input-container">
+      <input
+        type="number"
+        bind:value={waterAmount}
+        placeholder="Amount in ml"
+      />
+      <button on:click={toggleInput}>Confirm</button>
+    </div>
+  {/if}
+  {#if !showInput}
+    <div
+      class="add-button"
+      on:click={toggleInput}
+    >
+      +
+    </div>
+  {/if}
+</div>
 
 <style lang="scss">
   .add-button {
@@ -37,17 +60,3 @@
     margin-right: 10px;
   }
 </style>
-
-<div>
-  {#if showInput}
-    <div class="input-container">
-      <input type="range" min="0" max="100" bind:value={offset} />
-      {#if showConfirmation}
-        <button on:click={toggleInput}>Confirm</button>
-      {/if}
-    </div>
-  {/if}
-  {#if !showInput}
-    <div class="add-button" on:click={toggleInput}>+</div>
-  {/if}
-</div>

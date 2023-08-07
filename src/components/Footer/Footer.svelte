@@ -1,9 +1,30 @@
+<div class="footer">
+  <!-- Botão 1 -->
+  <a href="#/home">
+    <div class="material-icons home-icon" />
+    <span class="icon-text">Home</span>
+  </a>
+
+  <!-- Botão 2 -->
+  <a href="#/water">
+    <div class="material-icons water-icon" />
+    <span class="icon-text">Water</span>
+  </a>
+
+  <!-- Botão 3 -->
+  <a href="#/break">
+    <div class="material-icons break-icon" />
+    <span class="icon-text">Break</span>
+  </a>
+</div>
+
 <!-- Footer.svelte -->
 <style lang="scss">
   .footer {
     position: fixed;
     bottom: 0;
     left: 0;
+    right: 0;
     width: 100%;
     height: 12vh; /* Defina a altura para o footer */
     color: white;
@@ -42,26 +63,4 @@
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     font-weight: bolder;
   }
-
-
 </style>
-
-<div class="footer">
-  <!-- Botão 1 -->
-  <a href="#/home">
-    <div class="material-icons home-icon"></div>
-    <span class="icon-text">Home</span>
-  </a>
-
-  <!-- Botão 2 -->
-  <a href="#/water">
-    <div class="material-icons water-icon"></div>
-    <span class="icon-text">Water</span>
-  </a>
-
-  <!-- Botão 3 -->
-  <a href="#/break">
-    <div class="material-icons break-icon"></div>
-    <span class="icon-text">Break</span>
-  </a>
-</div>
