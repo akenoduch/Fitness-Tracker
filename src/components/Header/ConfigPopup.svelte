@@ -1,61 +1,207 @@
 <script>
-  import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   export let showConfig = false;
   let userResponses = {};
   let waterIntake;
   let editingKey = null;
+  let tempValue;
 
-  onMount(() => {
-    userResponses = JSON.parse(localStorage.getItem('userResponses') || '{}');
-    waterIntake = localStorage.getItem('waterIntake') || 0;
-  });
+  $: if (showConfig) {
+    const questionIds = ["UserName", "weight", "activity", "height", "gender"];
+    questionIds.forEach((id) => {
+      const value = localStorage.getItem(id);
+      userResponses[id] =
+        id === "weight" || id === "height" ? parseFloat(value) : value;
+    });
+    waterIntake = parseFloat(localStorage.getItem("waterIntake") || 0);
+  }
 
   const editResponse = (key) => {
     editingKey = key;
+    tempValue = userResponses[key];
   };
 
-  const saveResponse = (event, key) => {
-    userResponses[key] = event.target.value;
-    localStorage.setItem('userResponses', JSON.stringify(userResponses));
+  const saveResponse = (key) => {
+    userResponses[key] = tempValue;
+    localStorage.setItem(
+      key,
+      key === "weight" || key === "height" ? tempValue.toString() : tempValue
+    );
     editingKey = null;
+    calculateWaterIntake();
   };
 
   const editWaterIntake = () => {
-    editingKey = 'waterIntake';
+    editingKey = "waterIntake";
+    tempValue = waterIntake;
   };
 
-  const saveWaterIntake = (event) => {
-    waterIntake = event.target.value;
-    localStorage.setItem('waterIntake', waterIntake);
+  const saveWaterIntake = () => {
+    waterIntake = tempValue;
+    localStorage.setItem("waterIntake", waterIntake);
     editingKey = null;
   };
 
   const closeConfig = () => {
     showConfig = false;
   };
+
+  const activityOptions = [
+    "sedentary",
+    "lightlyActive",
+    "moderatelyActive",
+    "veryActive",
+    "extremelyActive",
+  ];
+
+  const genderOptions = ["male", "female"];
+
+  // Função para calcular o waterIntake com base nas respostas do usuário
+  function calculateWaterIntake() {
+    const weight = parseFloat(userResponses.weight);
+    const activity = userResponses.activity;
+    const height = parseFloat(userResponses.height);
+    const gender = userResponses.gender;
+
+    let activityFactor = 0;
+    switch (activity) {
+      case "sedentary":
+        activityFactor = 30;
+        break;
+      case "lightlyActive":
+        activityFactor = 35;
+        break;
+      case "moderatelyActive":
+        activityFactor = 40;
+        break;
+      case "veryActive":
+        activityFactor = 45;
+        break;
+      case "extremelyActive":
+        activityFactor = 50;
+        break;
+      default:
+        activityFactor = 30;
+    }
+
+    const heightFactor = height * 0.3;
+    const genderFactor = gender === "male" ? 5 : -161;
+
+    waterIntake = weight * activityFactor + heightFactor + genderFactor;
+    localStorage.setItem("waterIntake", waterIntake.toString());
+    window.dispatchEvent(new CustomEvent("waterIntakeChanged"));
+  }
 </script>
 
-<div class="config-popup" style="display: {showConfig ? 'block' : 'none'};" on:click={closeConfig}>
-  <div class="content" on:click|stopPropagation>
-    <button class="close-button" on:click={closeConfig}>Fechar</button>
-    <h1>Config</h1>
-    {#each Object.keys(userResponses) as key}
-      <div class="category">
-        {#if editingKey === key}
-          <input type="text" bind:value={userResponses[key]} on:blur={(event) => saveResponse(event, key)} />
-        {:else}
-          <span on:click={() => editResponse(key)}>{key}: {userResponses[key]}</span>
-        {/if}
-      </div>
-    {/each}
-  </div>
-  <div class="water-intake" on:click|stopPropagation>
-    <h2>Water Intake</h2>
-    {#if editingKey === 'waterIntake'}
-      <input type="number" bind:value={waterIntake} on:blur={saveWaterIntake} />
-    {:else}
-      <span on:click={editWaterIntake}>{waterIntake} ml</span>
-    {/if}
+<div
+  class="config-popup"
+  style="display: {showConfig ? 'block' : 'none'};"
+  on:click={closeConfig}
+>
+  <div
+    class="content"
+    on:click|stopPropagation
+  >
+    <h1>Configurações</h1>
+
+    <button
+      class="close-button"
+      on:click={closeConfig}>X</button
+    >
+    <div class="field">
+      <label>User Name:</label>
+      {#if editingKey === "UserName"}
+        <input
+          type="text"
+          bind:value={tempValue}
+        />
+        <button on:click={(event) => saveResponse(event, "UserName")}
+          >Salvar</button
+        >
+      {:else}
+        <span on:click={() => editResponse("UserName")}
+          >{userResponses.UserName}</span
+        >
+      {/if}
+    </div>
+    <div class="field">
+      <label>Height (cm):</label>
+      {#if editingKey === "height"}
+        <input
+          type="number"
+          bind:value={tempValue}
+        />
+        <button on:click={(event) => saveResponse(event, "height")}
+          >Salvar</button
+        >
+      {:else}
+        <span on:click={() => editResponse("height")}
+          >{userResponses.height}</span
+        >
+      {/if}
+    </div>
+    <div class="field">
+      <label>Weight (kg):</label>
+      {#if editingKey === "weight"}
+        <input
+          type="number"
+          bind:value={tempValue}
+        />
+        <button on:click={(event) => saveResponse(event, "weight")}
+          >Salvar</button
+        >
+      {:else}
+        <span on:click={() => editResponse("weight")}
+          >{userResponses.weight}</span
+        >
+      {/if}
+    </div>
+    <div class="field">
+      <label>Activity Level:</label>
+      {#if editingKey === "activity"}
+        <select
+          bind:value={tempValue}
+          on:change={(event) => saveResponse(event, "activity")}
+        >
+          {#each activityOptions as option}
+            <option value={option}>{option}</option>
+          {/each}
+        </select>
+      {:else}
+        <span on:click={() => editResponse("activity")}
+          >{userResponses.activity}</span
+        >
+      {/if}
+    </div>
+    <div class="field">
+      <label>Gender:</label>
+      {#if editingKey === "gender"}
+        <select
+          bind:value={tempValue}
+          on:change={(event) => saveResponse(event, "gender")}
+        >
+          {#each genderOptions as option}
+            <option value={option}>{option}</option>
+          {/each}
+        </select>
+      {:else}
+        <span on:click={() => editResponse("gender")}
+          >{userResponses.gender}</span
+        >
+      {/if}
+    </div>
+    <div class="water-intake">
+      <label>Water Intake:</label>
+      {#if editingKey === "waterIntake"}
+        <input
+          type="number"
+          bind:value={tempValue}
+        />
+        <button on:click={saveWaterIntake}>Salvar</button>
+      {:else}
+        <span on:click={editWaterIntake}>{waterIntake}</span>
+      {/if}
+    </div>
   </div>
 </div>
 
@@ -84,14 +230,9 @@
     position: absolute;
     top: 10px;
     right: 10px;
-    cursor: pointer;
-  }
-  .category {
-    margin: 10px 0;
-    cursor: pointer;
   }
   .water-intake {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     right: 0;
     width: 50%;
@@ -99,15 +240,21 @@
     padding: 20px;
     box-shadow: 0px -4px 5px rgba(0, 0, 0, 0.1);
   }
-  .water-intake h2 {
+  .water-intake label {
     margin: 0;
     padding: 0;
     font-size: 18px;
     color: #7700ca;
   }
   .water-intake span {
-    font-size: 24px; /* Tamanho de fonte maior */
-    color: black; /* Estilização consistente com outras categorias */
+    font-size: 24px;
+    color: black;
+    cursor: pointer;
+  }
+  .field {
+    margin-bottom: 15px;
+  }
+  .field span {
     cursor: pointer;
   }
 </style>

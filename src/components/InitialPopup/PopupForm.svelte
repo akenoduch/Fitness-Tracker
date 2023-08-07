@@ -11,6 +11,8 @@
     answers[key] = value;
   };
 
+  let UserNameStorage = localStorage.getItem("UserName");
+
   const nextQuestion = () => {
     const currentQuestionId = questions[currentQuestionIndex].id;
     const answer = answers[currentQuestionId];
@@ -71,7 +73,7 @@
   };
 </script>
 
-{#if showPopup}
+{#if showPopup && !UserNameStorage}
   <!-- Controla a exibição da popup -->
   <div class="popup">
     {#if showWelcome}

@@ -75,4 +75,11 @@
 <OrientationPopup />
 
 <style>
+  @font-face {
+    font-family: "SF Pro Display";
+    src: url("/fonts/SF-Pro-Display-Regular.otf");
+  }
+  * {
+    font-family: "SF Pro Display";
+  }
 </style>

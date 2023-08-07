@@ -1,33 +1,61 @@
 <!-- Header.svelte -->
 <script lang="ts">
-  import ConfigPopup from "./ConfigPopup.svelte"; // Importa o componente da popup de configuração
+  import ConfigPopup from "./ConfigPopup.svelte";
   export let showHeader = false;
-  export let userName = "";
 
-  // Função para obter a data atual formatada com o mês por extenso
-  function getCurrentDate() {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    return new Date().toLocaleDateString('pt-BR', options);
-  }
+  let userName = JSON.parse(localStorage.getItem("UserName") || '"Guest"');
 
   // Função para obter a parte relevante da URL após o hash
   function getCurrentPageType() {
     return window.location.hash;
   }
 
-  // Inicializar a prop currentDate com a data formatada
+  function getCurrentDate() {
+    const options = { year: "numeric", month: "long", day: "numeric" };
+    return new Date().toLocaleDateString("pt-BR", options);
+  }
+
   export let currentDate = getCurrentDate();
 
   // Inicializar a prop pageType com a parte relevante da URL após o hash
   export let pageType = getCurrentPageType();
 
   let showConfig = false;
-  let categories = Object.entries(localStorage).map(([key, value]) => ({ key, value }));
+  let categories = Object.entries(localStorage).map(([key, value]) => ({
+    key,
+    value,
+  }));
 
   const toggleConfigPopup = () => {
     showConfig = !showConfig;
   };
 </script>
+
+{#if showHeader}
+  <div class="header">
+    <div class="user-info">
+      {#if pageType === "#/home"}
+        <div class="user-name">Hello, {userName}</div>
+      {:else if pageType === "#/water"}
+        <div class="user-name">Daily Water</div>
+      {:else if pageType === "#/break"}
+        <div class="user-name">Take a Break</div>
+      {:else}
+        <div class="user-name">Hello, {userName}</div>
+      {/if}
+      <div class="date">{currentDate}</div>
+    </div>
+    <button
+      on:click={toggleConfigPopup}
+      class="menu-button">Menu</button
+    >
+  </div>
+  <div class="spacer" />
+  <ConfigPopup
+    {categories}
+    {showConfig}
+  />
+{/if}
 
 <style lang="scss">
   .header {
@@ -80,23 +108,3 @@
     border: none;
   }
 </style>
-
-{#if showHeader}
-  <div class="header">
-    <div class="user-info">
-      {#if pageType === '#/home'}
-        <div class="user-name">Hello, {userName}</div>
-      {:else if pageType === '#/water'}
-        <div class="user-name">Daily Water</div>
-      {:else if pageType === '#/break'}
-        <div class="user-name">Take a Break</div>
-      {:else}
-        <div class="user-name">Hello, {userName}</div>
-      {/if}
-      <div class="date">{currentDate}</div>
-    </div>
-    <button on:click={toggleConfigPopup} class="menu-button">Menu</button>
-  </div>
-  <div class="spacer"></div>
-  <ConfigPopup {categories} {showConfig} />
-{/if}
