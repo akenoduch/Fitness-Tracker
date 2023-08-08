@@ -1,67 +1,115 @@
-<script lang="ts">
+<script>
+  import Chart from "chart.js/auto";
+  import Header from "../components/Header/Header.svelte";
+  import Footer from "../components/Footer/Footer.svelte";
   import { onMount } from "svelte";
-  import Footer from "$components/Footer/Footer.svelte";
-  import Header from "$components/Header/Header.svelte";
 
-  let userName = "";
+  function getToday() {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  }
+
+  function getChartData() {
+    const waterDataArray =
+      JSON.parse(localStorage.getItem("waterDataArray")) || [];
+    const breaksDataArray =
+      JSON.parse(localStorage.getItem("breaksDataArray")) || [];
+
+    const waterLabels = waterDataArray.map((item) => item.date);
+    const waterValues = waterDataArray.map((item) => item.currentWaterConsumed);
+
+    const breakLabels = breaksDataArray.map((item) => item.date);
+    const breakValues = breaksDataArray.map((item) => item.breaks.length);
+
+    return {
+      waterLabels,
+      waterValues,
+      breakLabels,
+      breakValues,
+    };
+  }
 
   onMount(() => {
-    const userResponses = JSON.parse(localStorage.getItem("userResponses"));
-    if (userResponses && userResponses.UserName) {
-      userName = userResponses.UserName;
-    }
+    const { waterLabels, waterValues, breakLabels, breakValues } =
+      getChartData();
+
+    const waterConfig = {
+      type: "bar",
+      data: {
+        labels: waterLabels,
+        datasets: [
+          {
+            label: "Water Intake",
+            data: waterValues,
+            backgroundColor: "blue",
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: { beginAtZero: true, type: "category" },
+          y: { beginAtZero: true },
+        },
+      },
+    };
+
+    const breakConfig = {
+      type: "bar",
+      data: {
+        labels: breakLabels,
+        datasets: [
+          {
+            label: "Breaks",
+            data: breakValues,
+            backgroundColor: "red",
+          },
+        ],
+      },
+      options: {
+        scales: {
+          x: { beginAtZero: true, type: "category" },
+          y: { beginAtZero: true },
+        },
+      },
+    };
+
+    const waterCtx = document.getElementById("waterChart").getContext("2d");
+    const breakCtx = document.getElementById("breakChart").getContext("2d");
+    new Chart(waterCtx, waterConfig);
+    new Chart(breakCtx, breakConfig);
   });
 </script>
 
-<Header
-  showHeader={true}
-  {userName}
-/>
-<section>
-  <!-- Conteúdo da overview aqui -->
-  <overview-water>
-    <h3>Water</h3>
-    <p>2.5L</p>
-  </overview-water>
-  <overview-break>
-    <h3>Break</h3>
-    <p>2.5L</p>
-  </overview-break>
-</section>
+<Header showHeader={true} />
+
+<div class="centered-content">
+  <h1>Overview</h1>
+  <div class="chart-container">
+    <h2>Water Intake</h2>
+    <canvas id="waterChart" />
+  </div>
+  <div class="chart-container">
+    <h2>Break Cards</h2>
+    <canvas id="breakChart" />
+  </div>
+</div>
 
 <Footer />
 
-<style lang="scss">
-  section {
-    flex: 1; /* Ocupa todo o espaço disponível */
+<style>
+  .centered-content {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly; /* Distribui os cards com espaçamento igual */
-    align-items: center; /* Centraliza X */
-    gap: 20px; /* Espaçamento entre os cards */
-    padding-bottom: 10vh;
-    height: calc(100vh - 12vh * 2.8); /* centraliza altura */
-  }
-
-  overview-water {
-    width: 100%;
-    height: 20vh;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     align-items: center;
-    border: #7700ca 5px solid;
   }
-
-  overview-break {
-    width: 100%;
-    height: 20vh;
-    color: black;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    border: #7700ca 5px solid;
+  .chart-container {
+    width: 80%;
+    margin: 20px;
+    border: 3px solid #7700ca;
+    border-radius: 10px;
+  }
+  h1 {
+    margin: 0;
+    color: #7700ca;
   }
 </style>

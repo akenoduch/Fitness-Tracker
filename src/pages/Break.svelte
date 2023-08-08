@@ -19,6 +19,18 @@
     addingBreak = true;
   }
 
+  function updateBreakData(date, breaks) {
+    let breaksDataArray =
+      JSON.parse(localStorage.getItem("breaksDataArray")) || [];
+    const existingData = breaksDataArray.find((item) => item.date === date);
+    if (existingData) {
+      existingData.breaks = breaks;
+    } else {
+      breaksDataArray.push({ date, breaks });
+    }
+    localStorage.setItem("breaksDataArray", JSON.stringify(breaksDataArray));
+  }
+
   function saveBreak() {
     let backgroundImage = "src/assets/coffee.jpg";
     if (breakText.toLowerCase().includes("stretch")) {
@@ -43,14 +55,12 @@
     addingBreak = false;
     breakText = "";
     breakDuration = null;
+    updateBreakData(today, breaks);
   }
 
   function deleteBreak(id) {
     breaks = breaks.filter((breakItem) => breakItem.id !== id);
-    localStorage.setItem(
-      "breaks",
-      JSON.stringify({ date: today, breaks: breaks })
-    ); // Save with date
+    updateBreakData(today, breaks);
   }
 </script>
 

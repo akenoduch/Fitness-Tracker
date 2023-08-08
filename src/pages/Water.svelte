@@ -37,11 +37,22 @@
     waterIntake = Number(localStorage.getItem("waterIntake") || 0);
   }
 
+  function updateWaterData(date, consumed) {
+    let waterDataArray =
+      JSON.parse(localStorage.getItem("waterDataArray")) || [];
+    const existingData = waterDataArray.find((item) => item.date === date);
+    if (existingData) {
+      existingData.currentWaterConsumed = consumed;
+    } else {
+      waterDataArray.push({ date, currentWaterConsumed: consumed });
+    }
+    localStorage.setItem("waterDataArray", JSON.stringify(waterDataArray));
+  }
+
   function handleWaterAdded(e) {
     currentWaterConsumed += parseFloat(e.detail);
     offset = calculateOffset(currentWaterConsumed);
-    waterData = { date: getToday(), currentWaterConsumed };
-    localStorage.setItem("waterData", JSON.stringify(waterData));
+    updateWaterData(getToday(), currentWaterConsumed);
   }
 
   function closeCongratulations() {
