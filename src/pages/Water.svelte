@@ -6,10 +6,15 @@
   import AddButton from "$components/Water/AddButton.svelte";
   import CongratulationsPopup from "$components/Water/CongratulationsPopup.svelte";
 
+  function getToday() {
+    const today = new Date();
+    return today.toISOString().split("T")[0];
+  }
+
   let offset = 0;
-  let currentWaterConsumed = localStorage.getItem("currentWaterConsumed")
-    ? JSON.parse(localStorage.getItem("currentWaterConsumed"))
-    : 0;
+  let waterData = JSON.parse(localStorage.getItem("waterData")) || {};
+  let currentWaterConsumed =
+    waterData.date === getToday() ? waterData.currentWaterConsumed : 0;
   let showInput = false;
   let waterIntake = 0;
   let showCongratulations = false;
@@ -35,10 +40,8 @@
   function handleWaterAdded(e) {
     currentWaterConsumed += parseFloat(e.detail);
     offset = calculateOffset(currentWaterConsumed);
-    localStorage.setItem(
-      "currentWaterConsumed",
-      JSON.stringify(currentWaterConsumed)
-    );
+    waterData = { date: getToday(), currentWaterConsumed };
+    localStorage.setItem("waterData", JSON.stringify(waterData));
   }
 
   function closeCongratulations() {

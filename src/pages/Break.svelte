@@ -2,7 +2,14 @@
   import Footer from "../components/Footer/Footer.svelte";
   import Header from "../components/Header/Header.svelte";
 
-  let breaks = JSON.parse(localStorage.getItem("breaks")) || [];
+  let today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+  let storedData = JSON.parse(localStorage.getItem("breaks")) || {
+    date: today,
+    breaks: [],
+  };
+  if (storedData.date !== today) storedData = { date: today, breaks: [] }; // Reset if not today's data
+
+  let breaks = storedData.breaks;
   let addingBreak = false;
   let breakText = "";
   let breakDuration = null;
@@ -18,9 +25,7 @@
       backgroundImage = "src/assets/stretch.jpg";
     } else if (!breakText.toLowerCase().includes("coffee")) {
       backgroundImage =
-        Math.random() < 0.5
-          ? "src/assets/coffee.jpg"
-          : "src/assets/stretch.jpg";
+        Math.random() < 1 ? "src/assets/coffee.jpg" : "src/assets/stretch.jpg";
     }
     breaks = [
       ...breaks,
@@ -31,7 +36,10 @@
         image: backgroundImage,
       },
     ];
-    localStorage.setItem("breaks", JSON.stringify(breaks));
+    localStorage.setItem(
+      "breaks",
+      JSON.stringify({ date: today, breaks: breaks })
+    ); // Save with date
     addingBreak = false;
     breakText = "";
     breakDuration = null;
@@ -39,7 +47,10 @@
 
   function deleteBreak(id) {
     breaks = breaks.filter((breakItem) => breakItem.id !== id);
-    localStorage.setItem("breaks", JSON.stringify(breaks));
+    localStorage.setItem(
+      "breaks",
+      JSON.stringify({ date: today, breaks: breaks })
+    ); // Save with date
   }
 </script>
 
