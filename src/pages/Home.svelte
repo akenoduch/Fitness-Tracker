@@ -1,4 +1,3 @@
-<!-- Home.svelte -->
 <script lang="ts">
   import { onMount } from "svelte";
   import Footer from "$components/Footer/Footer.svelte";
@@ -12,8 +11,25 @@
       userName = userResponses.UserName;
     }
   });
-
 </script>
+
+<Header
+  showHeader={true}
+  {userName}
+/>
+<section>
+  <!-- Conteúdo da overview aqui -->
+  <overview-water>
+    <h3>Water</h3>
+    <p>2.5L</p>
+  </overview-water>
+  <overview-break>
+    <h3>Break</h3>
+    <p>2.5L</p>
+  </overview-break>
+</section>
+
+<Footer />
 
 <style lang="scss">
   section {
@@ -49,23 +65,3 @@
     border: #7700ca 5px solid;
   }
 </style>
-
-
-  <Header
-  showHeader={true}
-  {userName}
-  ></Header>
-  <section>
-    <!-- Conteúdo da overview aqui -->
-    <overview-water>
-      <h3>Water</h3>
-      <p>2.5L</p>
-    </overview-water>
-    <overview-break>
-      <h3>Break</h3>
-      <p>2.5L</p>
-    </overview-break>
-  </section>
-
-
-<Footer></Footer>

@@ -1,4 +1,3 @@
-<!-- AddButton.svelte -->
 <script>
   export let offset;
   export let showInput = false;

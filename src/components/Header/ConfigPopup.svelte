@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   export let showConfig = false;
   let userResponses = {};
   let waterIntake;
@@ -13,7 +12,7 @@
       userResponses[id] =
         id === "weight" || id === "height" ? parseFloat(value) : value;
     });
-    waterIntake = parseFloat(localStorage.getItem("waterIntake") || 0);
+    waterIntake = parseFloat(localStorage.getItem("waterIntake"));
   }
 
   const editResponse = (key) => {
