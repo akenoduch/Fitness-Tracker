@@ -104,9 +104,10 @@
   }
   .chart-container {
     width: 80%;
-    margin: 20px;
+    margin: 10px;
     border: 3px solid #7700ca;
     border-radius: 10px;
+    padding: 5px;
   }
   h1 {
     margin: 0;
