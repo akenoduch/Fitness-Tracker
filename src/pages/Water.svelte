@@ -11,10 +11,19 @@
     return today.toISOString().split("T")[0];
   }
 
+  function getWaterDataForToday() {
+    let waterDataArray =
+      JSON.parse(localStorage.getItem("waterDataArray")) || [];
+    return (
+      waterDataArray.find((item) => item.date === getToday()) || {
+        currentWaterConsumed: 0,
+      }
+    );
+  }
+
   let offset = 0;
   let waterData = JSON.parse(localStorage.getItem("waterData")) || {};
-  let currentWaterConsumed =
-    waterData.date === getToday() ? waterData.currentWaterConsumed : 0;
+  let { currentWaterConsumed } = getWaterDataForToday();
   let showInput = false;
   let waterIntake = 0;
   let showCongratulations = false;

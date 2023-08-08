@@ -84,7 +84,7 @@
     {:else if showThankYou}
       <div>
         <h1>Thank you!</h1>
-        <p>Your daily Water Intake is: {waterIntake.toFixed(2)} ml</p>
+        <p>Your daily Water Intake Goal is: {waterIntake.toFixed(2)} ml</p>
         <button on:click={closePopup}>Close</button>
       </div>
     {:else}
@@ -127,7 +127,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url("../../assets/drop-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;

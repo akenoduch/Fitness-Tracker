@@ -14,7 +14,7 @@
       required: true,
     },
     {
-      label: "Peso corporal (kg):",
+      label: "Body Weight (kg):",
       id: "weight",
       type: "number",
       required: true,
@@ -24,43 +24,41 @@
       id: "activity",
       type: "select",
       options: [
-        { value: "sedentary", label: "Sedentário (pouco ou nenhum exercício)" },
+        { value: "sedentary", label: "Sedentary (little or no exercise)" },
         {
           value: "lightlyActive",
-          label:
-            "Levemente ativo (exercício leve ou esportes 1-3 dias por semana)",
+          label: "Lightly active (light exercise or sports 1-3 days per week)",
         },
         {
           value: "moderatelyActive",
           label:
-            "Moderadamente ativo (exercício moderado ou esportes 3-5 dias por semana)",
+            "Moderately active (moderate exercise or sports 3-5 days per week)",
         },
         {
           value: "veryActive",
-          label:
-            "Muito ativo (exercício intenso ou esportes 6-7 dias por semana)",
+          label: "Very active (intense exercise or sports 6-7 days per week)",
         },
         {
           value: "extremelyActive",
           label:
-            "Extremamente ativo (exercício muito intenso e trabalho físico pesado ou exercício duas vezes por dia)",
+            "Extremely active (very intense exercise and heavy physical work or exercise twice a day)",
         },
       ],
       required: true,
     },
     {
-      label: "Altura (cm):",
+      label: "Height (cm):",
       id: "height",
       type: "number",
       required: true,
     },
     {
-      label: "Gênero:",
+      label: "Gender:",
       id: "gender",
       type: "select",
       options: [
-        { value: "male", label: "Masculino" },
-        { value: "female", label: "Feminino" },
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
       ],
       required: true,
     },
