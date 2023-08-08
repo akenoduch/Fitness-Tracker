@@ -1,12 +1,11 @@
 <script>
   import Footer from "../components/Footer/Footer.svelte";
   import Header from "../components/Header/Header.svelte";
-  import { onMount } from "svelte";
 
-  let breaks = [];
+  let breaks = JSON.parse(localStorage.getItem("breaks")) || [];
   let addingBreak = false;
   let breakText = "";
-  let breakDuration = "";
+  let breakDuration = null;
   const durations = [5, 10, 15, 20, 25, 30, 40, 50, 60];
 
   function startAddingBreak() {
@@ -14,28 +13,32 @@
   }
 
   function saveBreak() {
+    let backgroundImage = "src/assets/coffee.jpg";
+    if (breakText.toLowerCase().includes("stretch")) {
+      backgroundImage = "src/assets/stretch.jpg";
+    } else if (!breakText.toLowerCase().includes("coffee")) {
+      backgroundImage =
+        Math.random() < 0.5
+          ? "src/assets/coffee.jpg"
+          : "src/assets/stretch.jpg";
+    }
     breaks = [
       ...breaks,
-      { id: breaks.length, text: breakText, duration: breakDuration },
+      {
+        id: breaks.length,
+        text: breakText,
+        duration: Number(breakDuration),
+        image: backgroundImage,
+      },
     ];
+    localStorage.setItem("breaks", JSON.stringify(breaks));
     addingBreak = false;
     breakText = "";
-    breakDuration = "";
+    breakDuration = null;
   }
 
   function deleteBreak(id) {
     breaks = breaks.filter((breakItem) => breakItem.id !== id);
-    localStorage.setItem("breaks", JSON.stringify(breaks));
-  }
-
-  onMount(() => {
-    const savedBreaks = localStorage.getItem("breaks");
-    if (savedBreaks) {
-      breaks = JSON.parse(savedBreaks);
-    }
-  });
-
-  $: {
     localStorage.setItem("breaks", JSON.stringify(breaks));
   }
 </script>
@@ -45,7 +48,10 @@
 <div class="centered-content">
   <div class="view-port">
     {#each breaks as breakItem (breakItem.id)}
-      <div class="break-card">
+      <div
+        class="break-card"
+        style="background-image: linear-gradient(rgba(255, 255, 255, 0.6), rgba(255, 255, 255, 0.6)), url({breakItem.image});"
+      >
         Break {breakItem.id + 1}: {breakItem.text} ({breakItem.duration} minutes)
         <button
           class="delete-button"
@@ -100,7 +106,7 @@
     width: 90px;
     height: 90px;
     position: absolute;
-    top: 17vh;
+    bottom: 12vh;
     right: 1vw;
     border-radius: 50%;
     text-align: center;
@@ -115,9 +121,11 @@
   .break-card {
     width: 100%;
     height: 20%;
-    background-color: #7600ca59;
     position: relative;
     margin-bottom: 10px;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
   }
   .delete-button {
     position: absolute;
