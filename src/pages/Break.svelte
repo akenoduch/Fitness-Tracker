@@ -51,7 +51,7 @@
     localStorage.setItem(
       "breaks",
       JSON.stringify({ date: today, breaks: breaks })
-    ); // Save with date
+    );
     addingBreak = false;
     breakText = "";
     breakDuration = null;
@@ -61,6 +61,10 @@
   function deleteBreak(id) {
     breaks = breaks.filter((breakItem) => breakItem.id !== id);
     updateBreakData(today, breaks);
+    localStorage.setItem(
+      "breaks",
+      JSON.stringify({ date: today, breaks: breaks })
+    );
   }
 </script>
 
