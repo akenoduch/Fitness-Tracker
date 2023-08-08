@@ -4,13 +4,13 @@
   export let showInput = false;
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
-  let waterAmount = 0;
+  let waterAmount = "";
 
   function toggleInput() {
     showInput = !showInput;
     if (!showInput) {
       dispatch("waterAdded", waterAmount);
-      waterAmount = 0;
+      waterAmount = "";
     }
   }
 </script>
