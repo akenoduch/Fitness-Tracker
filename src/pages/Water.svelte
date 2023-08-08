@@ -30,6 +30,7 @@
 
   $: remainingWaterIntake = waterIntake - currentWaterConsumed;
   $: showCongratulations = remainingWaterIntake <= 0;
+  $: textColor = offset < 60 ? "#7700ca" : "#ffffff";
 
   onMount(() => {
     waterIntake = Number(localStorage.getItem("waterIntake") || 0);
@@ -72,7 +73,10 @@
 <Header showHeader={true} />
 
 <div class="centered-content">
-  <div class="current-water-consumed">
+  <div
+    class="current-water-consumed"
+    style="color: {textColor}"
+  >
     {currentWaterConsumed} ml
   </div>
   <div class="water-intake-card">
@@ -125,7 +129,6 @@
   .current-water-consumed {
     font-size: 28px;
     font-weight: bold;
-    color: #7700ca;
     position: fixed;
     left: 50%;
     top: 50%;

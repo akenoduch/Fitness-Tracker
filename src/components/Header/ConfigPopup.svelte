@@ -85,7 +85,9 @@
     const heightFactor = height * 0.3;
     const genderFactor = gender === "male" ? 5 : -161;
 
-    waterIntake = weight * activityFactor + heightFactor + genderFactor;
+    waterIntake = Math.round(
+      weight * activityFactor + heightFactor + genderFactor
+    );
     localStorage.setItem("waterIntake", waterIntake.toString());
     window.dispatchEvent(new CustomEvent("waterIntakeChanged"));
   }
