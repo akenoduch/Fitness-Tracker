@@ -30,7 +30,7 @@
 
   $: remainingWaterIntake = waterIntake - currentWaterConsumed;
   $: showCongratulations = remainingWaterIntake <= 0;
-  $: textColor = offset < 60 ? "#7700ca" : "#ffffff";
+  $: textColor = offset < 58 ? "#7700ca" : "#ffffff";
 
   onMount(() => {
     waterIntake = Number(localStorage.getItem("waterIntake") || 0);
