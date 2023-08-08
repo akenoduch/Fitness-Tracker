@@ -22,11 +22,10 @@
       currentQuestionIndex += 1;
     } else {
       calculateWaterIntake();
-      // Salvando cada resposta no localStorage usando o ID da pergunta
       for (const [key, value] of Object.entries(answers)) {
         localStorage.setItem(key, JSON.stringify(value));
       }
-      localStorage.setItem("waterIntake", waterIntake.toFixed(2)); // Salvando o resultado no localStorage
+      localStorage.setItem("waterIntake", waterIntake.toFixed(2));
       showThankYou = true;
     }
   };
@@ -69,25 +68,24 @@
     const heightFactor = height * 0.3;
     const genderFactor = gender === "male" ? 5 : -161;
 
-    waterIntake = weight * activityFactor + heightFactor + genderFactor;
+    waterIntake = Math.round(
+      weight * activityFactor + heightFactor + genderFactor
+    );
   };
 </script>
 
 {#if showPopup && !UserNameStorage}
-  <!-- Controla a exibição da popup -->
   <div class="popup">
     {#if showWelcome}
       <div>
-        <h1>Boas-vindas!</h1>
-        <button on:click={startQuestions}>Começar</button>
+        <h1>Welcome!</h1>
+        <button on:click={startQuestions}>Start</button>
       </div>
     {:else if showThankYou}
       <div>
-        <h1>Obrigado</h1>
-        <p>Water: {waterIntake.toFixed(2)} ml</p>
-        <!-- Valor calculado -->
-        <button on:click={closePopup}>Fechar</button>
-        <!-- Botão para fechar a popup -->
+        <h1>Thank you!</h1>
+        <p>Your daily Water Intake Goal is: {waterIntake.toFixed(2)} ml</p>
+        <button on:click={closePopup}>Close</button>
       </div>
     {:else}
       <div>
@@ -116,7 +114,7 @@
             {/each}
           </select>
         {/if}
-        <button on:click={nextQuestion}>Próximo</button>
+        <button on:click={nextQuestion}>Next</button>
       </div>
     {/if}
   </div>
@@ -129,7 +127,10 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-image: url("../../assets/drop-background.png");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;

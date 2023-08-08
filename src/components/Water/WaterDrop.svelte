@@ -1,8 +1,7 @@
 <script>
-  export let currentWaterConsumed = 0; // Quantidade atual de água consumida pelo usuário
-  export let waterIntake = 0; // Quantidade recomendada de água a ser consumida
+  export let currentWaterConsumed = 0;
+  export let waterIntake = 0;
 
-  // Cálculo do offset para renderização da gota, recalculado sempre que currentWaterConsumed ou waterIntake mudar
   $: offset =
     waterIntake === 0 ? 100 : 100 - (currentWaterConsumed / waterIntake) * 100;
 </script>

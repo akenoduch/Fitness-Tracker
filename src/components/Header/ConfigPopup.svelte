@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   export let showConfig = false;
   let userResponses = {};
   let waterIntake;
@@ -13,7 +12,7 @@
       userResponses[id] =
         id === "weight" || id === "height" ? parseFloat(value) : value;
     });
-    waterIntake = parseFloat(localStorage.getItem("waterIntake") || 0);
+    waterIntake = parseFloat(localStorage.getItem("waterIntake"));
   }
 
   const editResponse = (key) => {
@@ -56,7 +55,6 @@
 
   const genderOptions = ["male", "female"];
 
-  // Função para calcular o waterIntake com base nas respostas do usuário
   function calculateWaterIntake() {
     const weight = parseFloat(userResponses.weight);
     const activity = userResponses.activity;
@@ -102,28 +100,23 @@
     class="content"
     on:click|stopPropagation
   >
-    <h1>Configurações</h1>
-
+    <h1>Settings</h1>
     <button
       class="close-button"
       on:click={closeConfig}>X</button
     >
-    <div class="field">
-      <label>User Name:</label>
-      {#if editingKey === "UserName"}
-        <input
-          type="text"
-          bind:value={tempValue}
-        />
-        <button on:click={(event) => saveResponse(event, "UserName")}
-          >Salvar</button
-        >
-      {:else}
-        <span on:click={() => editResponse("UserName")}
-          >{userResponses.UserName}</span
-        >
-      {/if}
-    </div>
+    <label>User Name:</label>
+    {#if editingKey === "UserName"}
+      <input
+        type="text"
+        bind:value={tempValue}
+      />
+      <button on:click={() => saveResponse("UserName")}>Salvar</button>
+    {:else}
+      <span on:click={() => editResponse("UserName")}
+        >{userResponses.UserName}</span
+      >
+    {/if}
     <div class="field">
       <label>Height (cm):</label>
       {#if editingKey === "height"}
@@ -131,9 +124,7 @@
           type="number"
           bind:value={tempValue}
         />
-        <button on:click={(event) => saveResponse(event, "height")}
-          >Salvar</button
-        >
+        <button on:click={() => saveResponse("height")}>Salvar</button>
       {:else}
         <span on:click={() => editResponse("height")}
           >{userResponses.height}</span
@@ -147,9 +138,7 @@
           type="number"
           bind:value={tempValue}
         />
-        <button on:click={(event) => saveResponse(event, "weight")}
-          >Salvar</button
-        >
+        <button on:click={() => saveResponse("weight")}>Salvar</button>
       {:else}
         <span on:click={() => editResponse("weight")}
           >{userResponses.weight}</span
@@ -159,14 +148,12 @@
     <div class="field">
       <label>Activity Level:</label>
       {#if editingKey === "activity"}
-        <select
-          bind:value={tempValue}
-          on:change={(event) => saveResponse(event, "activity")}
-        >
+        <select bind:value={tempValue}>
           {#each activityOptions as option}
             <option value={option}>{option}</option>
           {/each}
         </select>
+        <button on:click={() => saveResponse("activity")}>Salvar</button>
       {:else}
         <span on:click={() => editResponse("activity")}
           >{userResponses.activity}</span
@@ -176,14 +163,12 @@
     <div class="field">
       <label>Gender:</label>
       {#if editingKey === "gender"}
-        <select
-          bind:value={tempValue}
-          on:change={(event) => saveResponse(event, "gender")}
-        >
+        <select bind:value={tempValue}>
           {#each genderOptions as option}
             <option value={option}>{option}</option>
           {/each}
         </select>
+        <button on:click={() => saveResponse("gender")}>Salvar</button>
       {:else}
         <span on:click={() => editResponse("gender")}
           >{userResponses.gender}</span

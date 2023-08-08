@@ -1,24 +1,20 @@
 <div class="footer">
-  <!-- Botão 1 -->
   <a href="#/home">
     <div class="material-icons home-icon" />
     <span class="icon-text">Home</span>
   </a>
 
-  <!-- Botão 2 -->
   <a href="#/water">
     <div class="material-icons water-icon" />
     <span class="icon-text">Water</span>
   </a>
 
-  <!-- Botão 3 -->
   <a href="#/break">
     <div class="material-icons break-icon" />
     <span class="icon-text">Break</span>
   </a>
 </div>
 
-<!-- Footer.svelte -->
 <style lang="scss">
   .footer {
     position: fixed;
@@ -26,10 +22,10 @@
     left: 0;
     right: 0;
     width: 100%;
-    height: 12vh; /* Defina a altura para o footer */
+    height: 12vh;
     color: white;
     display: flex;
-    justify-content: space-around; /* Distribui os botões uniformemente na horizontal */
+    justify-content: space-around;
     align-items: center;
     box-shadow: 0 -3px 5px rgba(0, 0, 0, 0.2);
   }

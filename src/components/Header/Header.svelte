@@ -1,23 +1,20 @@
-<!-- Header.svelte -->
 <script lang="ts">
   import ConfigPopup from "./ConfigPopup.svelte";
   export let showHeader = false;
 
   let userName = JSON.parse(localStorage.getItem("UserName") || '"Guest"');
 
-  // Função para obter a parte relevante da URL após o hash
   function getCurrentPageType() {
     return window.location.hash;
   }
 
   function getCurrentDate() {
     const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date().toLocaleDateString("pt-BR", options);
+    return new Date().toLocaleDateString("en-US", options);
   }
 
   export let currentDate = getCurrentDate();
 
-  // Inicializar a prop pageType com a parte relevante da URL após o hash
   export let pageType = getCurrentPageType();
 
   let showConfig = false;
