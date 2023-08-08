@@ -12,7 +12,7 @@
 
   function getCurrentDate() {
     const options = { year: "numeric", month: "long", day: "numeric" };
-    return new Date().toLocaleDateString("pt-BR", options);
+    return new Date().toLocaleDateString("en-US", options);
   }
 
   export let currentDate = getCurrentDate();
