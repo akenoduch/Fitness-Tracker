@@ -35,9 +35,10 @@
     let backgroundImage = "src/assets/coffee.jpg";
     if (breakText.toLowerCase().includes("stretch")) {
       backgroundImage = "src/assets/stretch.jpg";
+    } else if (breakText.toLowerCase().includes("walk")) {
+      backgroundImage = "src/assets/walk.jpg";
     } else if (!breakText.toLowerCase().includes("coffee")) {
-      backgroundImage =
-        Math.random() < 1 ? "src/assets/coffee.jpg" : "src/assets/stretch.jpg";
+      backgroundImage = "src/assets/nap.jpg";
     }
     breaks = [
       ...breaks,
