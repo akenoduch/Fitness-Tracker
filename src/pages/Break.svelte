@@ -2,12 +2,12 @@
   import Footer from "../components/Footer/Footer.svelte";
   import Header from "../components/Header/Header.svelte";
 
-  let today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+  let today = new Date().toISOString().slice(0, 10);
   let storedData = JSON.parse(localStorage.getItem("breaks")) || {
     date: today,
     breaks: [],
   };
-  if (storedData.date !== today) storedData = { date: today, breaks: [] }; // Reset if not today's data
+  if (storedData.date !== today) storedData = { date: today, breaks: [] };
 
   let breaks = storedData.breaks;
   let addingBreak = false;

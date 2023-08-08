@@ -55,7 +55,6 @@
 
   const genderOptions = ["male", "female"];
 
-  // Função para calcular o waterIntake com base nas respostas do usuário
   function calculateWaterIntake() {
     const weight = parseFloat(userResponses.weight);
     const activity = userResponses.activity;
