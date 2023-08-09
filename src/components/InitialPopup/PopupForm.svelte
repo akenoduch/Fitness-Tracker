@@ -1,11 +1,80 @@
 <script>
-  export let questions = [];
   let currentQuestionIndex = 0;
   let answers = {};
   let showWelcome = true;
   let showThankYou = false;
   let showPopup = true;
   let waterIntake = 0;
+
+  const questions = [
+    {
+      label: "What's your name?",
+      id: "UserName",
+      type: "text",
+      required: true,
+    },
+    {
+      label: "What time do you wake up?",
+      id: "wakeUpTime",
+      type: "time",
+      required: true,
+    },
+    {
+      label: "What time do you go to sleep?",
+      id: "sleepTime",
+      type: "time",
+      required: true,
+    },
+    {
+      label: "Body Weight (kg):",
+      id: "weight",
+      type: "number",
+      required: true,
+    },
+    {
+      label: "Nível de atividade física:",
+      id: "activity",
+      type: "select",
+      options: [
+        { value: "sedentary", label: "Sedentary (little or no exercise)" },
+        {
+          value: "lightlyActive",
+          label: "Lightly active (light exercise or sports 1-3 days per week)",
+        },
+        {
+          value: "moderatelyActive",
+          label:
+            "Moderately active (moderate exercise or sports 3-5 days per week)",
+        },
+        {
+          value: "veryActive",
+          label: "Very active (intense exercise or sports 6-7 days per week)",
+        },
+        {
+          value: "extremelyActive",
+          label:
+            "Extremely active (very intense exercise and heavy physical work or exercise twice a day)",
+        },
+      ],
+      required: true,
+    },
+    {
+      label: "Height (cm):",
+      id: "height",
+      type: "number",
+      required: true,
+    },
+    {
+      label: "Gender:",
+      id: "gender",
+      type: "select",
+      options: [
+        { value: "male", label: "Male" },
+        { value: "female", label: "Female" },
+      ],
+      required: true,
+    },
+  ];
 
   const saveAnswer = (key, value) => {
     answers[key] = value;
@@ -101,6 +170,12 @@
         {:else if questions[currentQuestionIndex].type === "number"}
           <input
             type="number"
+            id={questions[currentQuestionIndex].id}
+            bind:value={answers[questions[currentQuestionIndex].id]}
+          />
+        {:else if questions[currentQuestionIndex].type === "time"}
+          <input
+            type="time"
             id={questions[currentQuestionIndex].id}
             bind:value={answers[questions[currentQuestionIndex].id]}
           />
