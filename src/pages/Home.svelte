@@ -101,6 +101,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    height: calc(100vh - 12vh * 2.8);
+    overflow: auto;
   }
   .chart-container {
     width: 80%;
