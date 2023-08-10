@@ -83,7 +83,12 @@
     Water Intake Goal: <span>{waterIntake} ml</span>
   </div>
   <div class="remaining-water-intake">
-    Remaining Water Intake: <span>{remainingWaterIntake} ml</span>
+    {#if remainingWaterIntake >= 0}
+      Remaining Water Intake: <span>{remainingWaterIntake} ml</span>
+    {:else}
+      Water Intake Above Target: <span>{Math.abs(remainingWaterIntake)} ml</span
+      >
+    {/if}
   </div>
 
   <WaterDrop
