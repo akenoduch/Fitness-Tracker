@@ -92,8 +92,13 @@
     } else {
       calculateWaterIntake();
       for (const [key, value] of Object.entries(answers)) {
-        localStorage.setItem(key, JSON.stringify(value));
+        if (key === "UserName") {
+          localStorage.setItem(key, value);
+        } else {
+          localStorage.setItem(key, JSON.stringify(value));
+        }
       }
+
       localStorage.setItem("waterIntake", waterIntake.toFixed(2));
       showThankYou = true;
     }
