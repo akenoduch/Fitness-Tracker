@@ -7,14 +7,13 @@
 
   function toggleInput() {
     showInput = !showInput;
-    if (!showInput) {
+    if (!showInput && waterAmount > "0") {
       dispatch("waterAdded", waterAmount);
       waterAmount = "";
     }
   }
 </script>
 
-<!-- lembrar de não permitir valores negativos no input -->
 <div>
   {#if showInput}
     <div class="input-container">

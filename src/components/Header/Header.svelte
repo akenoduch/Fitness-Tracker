@@ -2,7 +2,14 @@
   import ConfigPopup from "./ConfigPopup.svelte";
   export let showHeader = false;
 
-  let userName = JSON.parse(localStorage.getItem("UserName") || '"Guest"');
+  let userName;
+  let interval = setInterval(() => {
+    userName = localStorage.getItem("UserName");
+    if (userName) {
+      clearInterval(interval);
+      console.log("UserName encontrado:", userName);
+    }
+  });
 
   function getCurrentPageType() {
     return window.location.hash;
