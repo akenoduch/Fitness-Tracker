@@ -91,6 +91,21 @@
     localStorage.setItem("waterIntake", waterIntake.toString());
     window.dispatchEvent(new CustomEvent("waterIntakeChanged"));
   }
+
+  let tempWakeUpTime = localStorage.getItem("wakeUpTime") || "00:00";
+  let tempSleepTime = localStorage.getItem("sleepTime") || "00:00";
+
+  const editWakeUpAndSleepTime = () => {
+    editingKey = "wakeUpAndSleepTime";
+    tempWakeUpTime = localStorage.getItem("wakeUpTime") || "00:00";
+    tempSleepTime = localStorage.getItem("sleepTime") || "00:00";
+  };
+
+  const saveWakeUpAndSleepTime = () => {
+    localStorage.setItem("wakeUpTime", tempWakeUpTime);
+    localStorage.setItem("sleepTime", tempSleepTime);
+    editingKey = null;
+  };
 </script>
 
 <div
@@ -113,7 +128,7 @@
         type="text"
         bind:value={tempValue}
       />
-      <button on:click={() => saveResponse("UserName")}>Salvar</button>
+      <button on:click={() => saveResponse("UserName")}>Save</button>
     {:else}
       <span on:click={() => editResponse("UserName")}
         >{userResponses.UserName}</span
@@ -126,7 +141,7 @@
           type="number"
           bind:value={tempValue}
         />
-        <button on:click={() => saveResponse("height")}>Salvar</button>
+        <button on:click={() => saveResponse("height")}>Save</button>
       {:else}
         <span on:click={() => editResponse("height")}
           >{userResponses.height}</span
@@ -140,7 +155,7 @@
           type="number"
           bind:value={tempValue}
         />
-        <button on:click={() => saveResponse("weight")}>Salvar</button>
+        <button on:click={() => saveResponse("weight")}>Save</button>
       {:else}
         <span on:click={() => editResponse("weight")}
           >{userResponses.weight}</span
@@ -155,7 +170,7 @@
             <option value={option}>{option}</option>
           {/each}
         </select>
-        <button on:click={() => saveResponse("activity")}>Salvar</button>
+        <button on:click={() => saveResponse("activity")}>Save</button>
       {:else}
         <span on:click={() => editResponse("activity")}
           >{userResponses.activity}</span
@@ -170,13 +185,33 @@
             <option value={option}>{option}</option>
           {/each}
         </select>
-        <button on:click={() => saveResponse("gender")}>Salvar</button>
+        <button on:click={() => saveResponse("gender")}>Save</button>
       {:else}
         <span on:click={() => editResponse("gender")}
           >{userResponses.gender}</span
         >
       {/if}
     </div>
+    <div class="field">
+      <label>Wake Up Time:</label>
+      {#if editingKey === "wakeUpAndSleepTime"}
+        <input
+          type="time"
+          bind:value={tempWakeUpTime}
+        />
+        <label>Sleep Time:</label>
+        <input
+          type="time"
+          bind:value={tempSleepTime}
+        />
+        <button on:click={saveWakeUpAndSleepTime}>Save</button>
+      {:else}
+        <span on:click={editWakeUpAndSleepTime}>
+          {tempWakeUpTime} - {tempSleepTime}
+        </span>
+      {/if}
+    </div>
+
     <div class="water-intake">
       <label>Water Intake:</label>
       {#if editingKey === "waterIntake"}
@@ -184,7 +219,7 @@
           type="number"
           bind:value={tempValue}
         />
-        <button on:click={saveWaterIntake}>Salvar</button>
+        <button on:click={saveWaterIntake}>Save</button>
       {:else}
         <span on:click={editWaterIntake}>{waterIntake}</span>
       {/if}

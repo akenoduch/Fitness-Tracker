@@ -4,7 +4,7 @@
 
   let userName;
   let interval = setInterval(() => {
-    userName = JSON.parse(localStorage.getItem("UserName"));
+    userName = localStorage.getItem("UserName");
     if (userName) {
       clearInterval(interval);
       console.log("UserName encontrado:", userName);

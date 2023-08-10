@@ -12,15 +12,17 @@
     if (display === "granted") {
       scheduleNotifications();
     } else {
-      scheduleNotifications();
+      scheduleNotifications(); // Mesmo se não concedido, agendamos as notificações (ajuste conforme necessário)
     }
     console.log("Permission status:", display);
   });
 
   function scheduleNotifications() {
     console.log("Scheduling notifications...");
-    // Intervalo de 2 minutos
-    const interval = 1 * 60 * 1000;
+    // Intervalo de 30 minutos para a notificação de pausa
+    const breakInterval = 30 * 60 * 1000;
+    // Intervalo de 15 minutos para a notificação de água
+    const waterInterval = 15 * 60 * 1000;
 
     // Loop para agendar notificações
     setInterval(() => {
@@ -40,15 +42,32 @@
 
       // Verificar se o horário atual está dentro do intervalo
       if (isTimeInRange(currentTime, wakeUpTime, sleepTime)) {
-        console.log("Scheduling notification for 2 minutes from now.");
-        // Agendar uma notificação para 2 minutos no futuro
+        // Agendar notificação de pausa
+        console.log("Scheduling break notification for 30 minutes from now.");
         LocalNotifications.schedule({
           notifications: [
             {
               title: "Break Time",
               body: "Take a break",
               id: now.getTime(),
-              schedule: { at: new Date(Date.now() + interval) },
+              schedule: { at: new Date(Date.now() + breakInterval) },
+              sound: null,
+              attachments: null,
+              actionTypeId: "",
+              extra: null,
+            },
+          ],
+        });
+
+        // Agendar notificação de água
+        console.log("Scheduling water notification for 15 minutes from now.");
+        LocalNotifications.schedule({
+          notifications: [
+            {
+              title: "Water Time",
+              body: "Drink some water",
+              id: now.getTime() + 1,
+              schedule: { at: new Date(Date.now() + waterInterval) },
               sound: null,
               attachments: null,
               actionTypeId: "",
@@ -59,7 +78,7 @@
       } else {
         console.log("Current time is not in the specified range.");
       }
-    }, interval);
+    }, Math.min(breakInterval, waterInterval)); // Usar o menor intervalo para o loop
   }
 
   // Função para converter um horário em minutos
